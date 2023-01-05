@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Book Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/master.css' %}">
+    <link rel="stylesheet" href="{% static 'https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css' %}" >
+    <link rel="stylesheet" href="{% static 'css/docs_min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap_min.css' %}">
+    <style>
+        .container{
+            width:800;
+            margin-top: 100px;
+            display: flex;
+            flex-direction:column;
+            justify-content: space-between;
+        }
+        .welcome{
+            width:800;
+            margin: 50px auto 0px;
+            display: flex;
+            justify-content: space-around;
+            align-items: baseline;
+        }
+        .welcome h1{
+            margin-right: 650px;
+        }
+        .welcome .above_link{
+            display: flex;
+            justify-content: space-between;
+            width:300px;
+            margin-right: 10px;
+        }
+        a{
+            text-decoration: underline;
+        }
+        hr{
+            width: 1450px;
+            background-color: black;
+            margin:10px auto 0px;
+        }
+        .container form{
+            margin-top:50px;
+            margin-left:-130px;
+        }
+        .actions{
+            display: flex;
+            justify-content: space-between;
+        }
+        .container h1{
+            margin-left: -130px;
+        }
+        .error_message{
+            color: red;
+        }
+        .all_books h1{
+            margin-left: 0px;
+        }
+        .all_books a{
+            margin-left: 130px;
+        }
+        .all_books_reviews{
+            width: 400px;
+            height: 100px;
+        }
+        .books_link{
+            width: 400px;
+            height: 100px;
+            border: 1px solid black;
+            overflow: scroll;
+            overflow-x: auto;
+        }
+        .book_info img{
+            background-color: yellow;
+        }
+        .book_review ul{
+            list-style: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="welcome">
+        <h1>Welcome , {{user.first_name}}</h1>
+        <div class="above_link">
+            <a href="/books">Home</a>
+            <a href="/addBook">Add Book and Review</a>
+            <a href="/">Log Out</a>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="user_data">
+            <table>
+                <tr>
+                    <td>User Alias:</td>
+                    <td>{{user.alias}}</td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td>{{user.name}}</td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>{{user.email}}</td>
+                </tr>
+                <tr>
+                    <td>Total Reviews:</td>
+                    <td>{{num_of_reviews}}</td>
+                </tr>
+            </table>
+        </div><br><br>
+        <div class="book_review">
+            <h4>Posted Reviews on the following books : </h4>
+            <ul>
+            {% for review in user.reviews.all %}
+                <li><a href="/book_info_page/{{review.book.id}}">{{review.book.book_title}}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

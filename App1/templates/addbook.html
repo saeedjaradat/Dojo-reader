@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    
+    .header{  
+            width: 800px;          
+            margin: 20px auto 0px;
+            display: flex;
+            justify-content:flex-end;
+            align-items: baseline;
+        }
+        .header h1{
+            margin-right: 800px;
+            font-size: medium;
+        }
+        a{
+            text-decoration: underline;
+        }
+        hr{
+            background-color: black;
+            margin:10px auto 0px;
+        }
+        .container{
+            width:800px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-group{
+            margin: 10px;
+        }
+        input{
+            margin: 10px;
+            border: 1px solid black;
+        }
+        textarea{
+            border: 1px solid black;
+            align-items: center;
+        }
+        label{
+            margin-bottom: 50px;
+        }
+        
+        
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/">logout</a>
+        <a href="/books">Home</a>
+    </div>
+    <hr> 
+    <div class="container">
+        <div class="addBookForm">
+            <h1>Add a Favorite Book </h1>
+            <form action="/add_books_reviews" method="post">
+                {% csrf_token %}
+                <h2>Add a New Book Title and a Review:</h2>
+            <h4>Book Title:</h4>
+            <input type="text" name="btitle" id="">
+            <h4>Author:</h4>
+            <h5>Choose from the list:</h5>
+            <select name="authorlist" id="">
+                <option value=' '> </option>
+                {% for i in authorlist%}
+                    <option value={{i.id}}>{{i.name}}</option>
+                {% endfor %}
+            </select>
+            <h5>Or add a new author:</h5>
+            <input type="text" name="newauthor" id="">
+            <h4>Review:</h4>
+            <input type="text" name="reviewbox" id="">
+            <h4>Rating:</h4>
+            <select name="stars" id="">
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+            </select>
+            <input type="hidden" name="book_userid" value="request.session.userid">
+            
+            <input type="submit" value="Add Book and Review">
+            </form>
+        </div>
+        
+    </div>
+        {% if messages %}
+<ul class="messages">    
+    {% for message in messages %}    
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+    {% endfor %}
+</ul>
+{% endif %}
+</body>
+</html>

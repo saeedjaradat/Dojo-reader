@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+</head>
+<style>
+    .container{
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            justify-content:space-around
+        }
+        
+    .header{ 
+            display: flex;
+            justify-content:space-between;
+            align-items: baseline;
+    }
+    .links{
+        display: flex;
+        justify-content: space-between;
+    }
+    a{
+        margin-left: 30px;
+    }
+    hr{
+            background-color: black;
+            margin:10px auto 0px;
+            height: 2px;
+    }
+    
+    .Recent_books{
+        width: 70%;
+    }
+    .all_books_reviews{
+        align-self:flex-start;
+        border: 2px solid black;
+    }
+</style>
+<body>
+    <div class="header_container">
+        <div class="header">
+            <h3>Welcome:{{user.name}}</h3>
+            <div class="links">
+                <a href="/addBook">add book and review</a>
+                <a href="/">logout</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container">
+        <div class="Recent_books">
+            <h4>Recen Book Reviews:</h4>
+            {%for book in books%}
+            <a href="books/{{book.id}}">{{book.book_title}}</a>
+            {% for review in book.reviews.all %}
+            <p>Rating:{{review.rating}}</p>
+            <p><a href="/users/{{review.user.id}}">{{review.user.name}}</a>says:{{review.content}}</p>
+            <p class="first">potsed on :{{review.created_at}}</p>
+            <hr>
+            {%endfor%}
+            {%endfor%}
+        </div> 
+        <div class="all_books_reviews">
+            <h2>Other Books with Reviews :</h2>
+            <div class="books_link">
+                {% for book in books %}
+                <a href="/books/{{book.id}}">{{book.book_title}}</a><br>
+            {% endfor %}
+            </div>   
+        </div>      
+    </div>
+    
+    
+</body>
+</html>
+
+
+

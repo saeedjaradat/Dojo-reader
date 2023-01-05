@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .header{
+            display: flex;
+            justify-content: flex-end;
+        }
+        a{
+            margin-left: 30px;
+        }
+        hr{
+            height: 3px;
+            background: black;
+            width: 50%;
+            margin-right: 50%;
+        }
+        .first{
+            margin-left: 30px;
+        }
+        .container{
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            justify-content:space-around
+        }
+        .review_book{
+            width: 70%;
+        }
+        textarea{
+            border: 2px solid black;
+        }
+        .add_review{
+        align-self: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="/books">Home</a>
+        <a href="/">logout</a>
+    </div>
+    <div class="container">
+        <div class="review_book">
+            <h1>{{book.book_title}}</h1>
+            <p>Author:{{book.author.name}}</p>
+            <h2>Reviews:</h2>
+            <hr>
+            {%for review in book.reviews.all%}
+            <form action="/del_review" method="post">
+                {% csrf_token %}
+            <p class="first">rating:{{review.rating}}</p>
+            <p><a href="/users/{{review.user.id}}">{{review.user.name}}</a>says:{{review.content}}</p>
+            <p class="first">potsed on :{{review.created_at}}</p>
+            
+            {% if request.session.userid == review.user.id %}
+            <input type="hidden" name="review_id" value="{{review.id}}">
+            <input type="hidden" name="book_id" value="{{book.id}}">
+
+            <input type="submit" value="delete">
+            {%endif%}
+            </form>
+            <hr>
+            {%endfor%}
+        </div>
+        <div class="add_review">
+            <form action="/addReview" method="post">
+            {% csrf_token %}
+            <h3>Add a Review:</h3>
+            <textarea cols="20" rows="5" name="reviewbox" ></textarea>
+            <h4>Rating:</h4>
+            <select name="stars">
+                <option value='1'>1</option>
+                <option value='2'>2</option>
+                <option value='3'>3</option>
+                <option value='4'>4</option>
+                <option value='5'>5</option>
+            </select>
+            <input type="hidden" name="view_user_id" value="request.session.userid">
+            <input type="hidden" name="view_book_id" value="{{book.id}}">
+            <input type="submit" value="submit Review">
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>
